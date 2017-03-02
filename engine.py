@@ -1,4 +1,5 @@
 ##Python compress
+from fractions import gcd;
 
 fp = "testFile.py";
 f = open ( fp, "rb" );
@@ -7,19 +8,32 @@ f.close();
 del f;
 fd = fd.decode();
 fd = fd.split("\r\n");
-i = 0;
-usualIndent = False;
+fdi = [];
 
-while i != len(fd)-1:
+for x in fd:
     indent = 0;
-    for x in fd[i]:
-        if x == " ":
-            indent += 1;
+    for y in x:
+        if y == " ":
+            indent+=1;
         else:
             break;
+    fdi.append(indent);
+
+temp = fdi[:];
+
+while True:
+    try:
+        temp.remove(0);
+    except:
+        break;
     
-    fd[i] = str ( indent ) + fd[i][indent:];
-    i += 1;
+fdgcf = gcd(max(fdi), min(temp)); ##Obviously not going to work because stuff
+
+newfdi = [ x / fdgcf * 2 for x in fdi ]
+
     
-for x in fd:
-    print ( x );
+
+del temp;
+
+
+
